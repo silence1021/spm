@@ -1,0 +1,21 @@
+server:
+  port: 8085
+
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    url: jdbc:mysql://rm-cn-4xl3gmscg000cxpo.rwlb.rds.aliyuncs.com:3306/mysql?serverTimezone=Asia/Shanghai&characterEncoding=utf-8
+    username: root
+    password: Root123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  mapper-locations: com.spm1.mapper.*Mapper
+  configuration:
+    map-under-score-to-camel-case: true
+    #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: ASSIGN_ID

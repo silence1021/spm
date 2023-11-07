@@ -1,0 +1,20 @@
+# 文件上传大小限制
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 1000MB
+
+  # 地域节点
+aliyun:
+  oss:
+    file:
+      endPoint: oss-cn-beijing.aliyuncs.com
+      # Bucket 域名
+      urlPrefix: http://spm-pancake.oss-cn-beijing.aliyuncs.com
+      # accessKeyId
+      accessKeyId: LTAI5t9gV2wVUH6dgXeMkM7X
+      # accessKeySecret
+      accessKeySecret: fGuvAQzcJM5olM5Y5ioLemVeiTWYKV
+      # 你的Bucket名称
+      bucketName: spm-pancake
