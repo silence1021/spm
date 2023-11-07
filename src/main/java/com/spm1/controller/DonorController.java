@@ -3,7 +3,6 @@ package com.spm1.controller;
 import com.spm1.entity.Donor;
 import com.spm1.service.DonorService;
 import com.spm1.tools.HttpResponseEntity;
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +17,6 @@ import java.util.UUID;
 @RequestMapping("/donor")
 @Slf4j
 @RequiredArgsConstructor
-@Api("donor controller")
 public class DonorController {
     private final DonorService donorService;
 

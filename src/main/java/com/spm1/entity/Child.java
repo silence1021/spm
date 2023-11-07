@@ -26,6 +26,6 @@ public class Child {
     private String imageUrl;
     private String description;
     private String content;
-    private Integer count_people;
+    private Integer countPeople;
 
 }
