@@ -13,6 +13,7 @@ import java.util.UUID;
 @RequestMapping("/project")
 @Slf4j
 @RequiredArgsConstructor
+@CrossOrigin
 public class ProjectController {
     private final ProjectService projectService;
 

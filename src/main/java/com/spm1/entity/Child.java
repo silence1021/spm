@@ -21,11 +21,15 @@ public class Child {
     private String name;
     private Integer age;
     private String title;
+    @TableField("expected_money")
     private Double expectedMoney;
+    @TableField("actual_money")
     private Double actualMoney;
+    @TableField("image_url")
     private String imageUrl;
     private String description;
     private String content;
-    private Integer count_people;
+    @TableField("count_people")
+    private Integer countPeople;
 
 }

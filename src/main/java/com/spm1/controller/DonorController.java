@@ -3,7 +3,6 @@ package com.spm1.controller;
 import com.spm1.entity.Donor;
 import com.spm1.service.DonorService;
 import com.spm1.tools.HttpResponseEntity;
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +17,12 @@ import java.util.UUID;
 @RequestMapping("/donor")
 @Slf4j
 @RequiredArgsConstructor
-@Api("donor controller")
+@CrossOrigin
 public class DonorController {
     private final DonorService donorService;
 
     @PostMapping("/login")
+    @ResponseBody
     public HttpResponseEntity donorLogin(@RequestBody Donor donor, HttpServletResponse response) {
         // Login by ID
         List<Donor> userList_id = donorService.query()
@@ -47,6 +47,7 @@ public class DonorController {
     }
 
     @PostMapping("/signUp")
+    @ResponseBody
     public HttpResponseEntity addDonorInfo(@RequestBody Donor donor) {
         List<Donor> userList = donorService.query()
                 .eq("id", donor.getId()).list(); 

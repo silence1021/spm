@@ -1,6 +1,12 @@
 package com.spm1.tools;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
+@Data
+@Getter
+@Setter
 public class HttpResponseEntity {
     private String code;     // 响应状态码
     private Object data;     // 响应数据
