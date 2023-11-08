@@ -5,10 +5,7 @@ import com.spm1.service.*;
 import com.spm1.tools.HttpResponseEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -17,6 +14,7 @@ import java.util.UUID;
 @RequestMapping("/donation")
 @Slf4j
 @RequiredArgsConstructor
+@CrossOrigin
 public class DonationController {
     private final DonorService donorService;
     private final ChildRecordService childRecordService;

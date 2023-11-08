@@ -6,10 +6,7 @@ import com.spm1.service.ChildRecordService;
 import com.spm1.tools.HttpResponseEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,6 +14,7 @@ import java.util.List;
 @RequestMapping("/childRecord")
 @Slf4j
 @RequiredArgsConstructor
+@CrossOrigin
 public class ChildRecordController {
     private final ChildRecordService childRecordService;
 
@@ -52,6 +50,12 @@ public class ChildRecordController {
     @PostMapping("/queryByDonor")
     HttpResponseEntity queryRecordByDonor(@RequestBody Donor donor){
         List<ChildRecord> childRecordList = childRecordService.query().eq("donorId", donor.getId()).list();
+        return HttpResponseEntity.response(true, "查询", childRecordList);
+    }
+
+    @GetMapping("/all")
+    HttpResponseEntity queryAll(){
+        List<ChildRecord> childRecordList = childRecordService.query().list();
         return HttpResponseEntity.response(true, "查询", childRecordList);
     }
 }

@@ -16,6 +16,7 @@ import java.util.UUID;
 @RequestMapping("/child")
 @Slf4j
 @RequiredArgsConstructor
+@CrossOrigin
 public class ChildController {
     private final ChildService childService;
     private final FileService fileService;
@@ -23,6 +24,7 @@ public class ChildController {
 
     // Get a child by ID
     @GetMapping("/search")
+    @ResponseBody
     public HttpResponseEntity getChildById( @RequestBody String id) {
         Child child = childService.getChildById(id);
         if (child != null)
@@ -33,6 +35,7 @@ public class ChildController {
 
     // Get all children
     @GetMapping("/all")
+    @ResponseBody
     public HttpResponseEntity getAllChildren() {
         List<Child> children = childService.getAllChildren();
         return HttpResponseEntity.response(true, "获取所有儿童", children);
@@ -40,6 +43,7 @@ public class ChildController {
 
     // Create a new child
     @PostMapping("add")
+    @ResponseBody
     public HttpResponseEntity createChild(@RequestBody Child child, @RequestParam MultipartFile image) {
         String imageUrl = fileService.imageUpload(image, child.getId(), imagePath);
         child.setImageUrl(imageUrl);
@@ -54,6 +58,7 @@ public class ChildController {
 
     // Update an existing child
     @PutMapping("/update")
+    @ResponseBody
     public HttpResponseEntity updateChild(@RequestBody Child child) {
         boolean isChildUpdated = childService.updateChild(child);
         if (isChildUpdated)

@@ -15,6 +15,7 @@ import java.util.List;
 @RequestMapping("/projectItem")
 @Slf4j
 @RequiredArgsConstructor
+@CrossOrigin
 public class ProjectItemController {
     private final ProjectItemService ProjectItemService;
     private final FileService fileService;

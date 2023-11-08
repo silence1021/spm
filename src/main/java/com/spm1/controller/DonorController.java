@@ -17,10 +17,12 @@ import java.util.UUID;
 @RequestMapping("/donor")
 @Slf4j
 @RequiredArgsConstructor
+@CrossOrigin
 public class DonorController {
     private final DonorService donorService;
 
     @PostMapping("/login")
+    @ResponseBody
     public HttpResponseEntity donorLogin(@RequestBody Donor donor, HttpServletResponse response) {
         // Login by ID
         List<Donor> userList_id = donorService.query()
@@ -45,6 +47,7 @@ public class DonorController {
     }
 
     @PostMapping("/signUp")
+    @ResponseBody
     public HttpResponseEntity addDonorInfo(@RequestBody Donor donor) {
         List<Donor> userList = donorService.query()
                 .eq("id", donor.getId()).list(); 
