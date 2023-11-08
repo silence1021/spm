@@ -5,6 +5,8 @@ server:
       timeout: 259200m
 
 spring:
+  mvc:
+    static-path-pattern: /**
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
