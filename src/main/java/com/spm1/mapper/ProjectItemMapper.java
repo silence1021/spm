@@ -8,5 +8,5 @@ import java.util.List;
 
 @Mapper
 public interface ProjectItemMapper extends BaseMapper<ProjectItem> {
-    List<ProjectItem> selectByProjectId(String projectId);
+    List<ProjectItem> selectByProjectId(String id);
 }

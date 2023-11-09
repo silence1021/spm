@@ -1,8 +1,6 @@
 package com.spm1.controller;
 
-import com.spm1.entity.Donor;
-import com.spm1.entity.Project;
-import com.spm1.entity.ProjectRecord;
+import com.spm1.entity.*;
 import com.spm1.service.ProjectRecordService;
 import com.spm1.service.ProjectService;
 import com.spm1.tools.HttpResponseEntity;
@@ -13,10 +11,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/ProjectRecord")
@@ -59,10 +54,11 @@ public class ProjectRecordController {
         return HttpResponseEntity.response(true, "查询", projectRecordList);
     }
 
-    @PostMapping("/queryByDonor")
+    @PostMapping("/queryByDonor_withMoney")
     @ResponseBody
     HttpResponseEntity queryRecordByDonor(@RequestBody Donor donor){
         List<ProjectRecord> projectRecordList = projectRecordService.query().eq("donor_id", donor.getId()).list();
+        log.info("projectRecordList: " + projectRecordList.size());
         @Data
         @Setter
         @Getter
@@ -76,14 +72,26 @@ public class ProjectRecordController {
                 projectInfoMap.get(projectRecord.getProjectId()).money += projectRecord.getMoney();
             else{
                 ProjectInfo projectInfo = new ProjectInfo();
-                if(projectService.query().eq("id", projectRecord.getProjectId()).list().isEmpty())
+                if(projectService.query().eq("id", projectRecord.getProjectId()) != null)
+                    projectInfo.project = projectService.query().eq("id", projectRecord.getProjectId()).list().get(0);
+                else
                     return HttpResponseEntity.response(false, "查询", null);
-                projectInfo.project = projectService.query().eq("id", projectRecord.getProjectId()).list().get(0);
                 projectInfo.money = projectRecord.getMoney();
                 projectInfoMap.put(projectRecord.getProjectId(), projectInfo);
             }
         }
         return HttpResponseEntity.response(true, "查询", new ArrayList<ProjectInfo>(projectInfoMap.values()));
+    }
+
+    @PostMapping("/queryByDonor")
+    @ResponseBody
+    HttpResponseEntity queryRecordWithoutMoney(@RequestBody Donor donor){
+        List<ProjectRecord> projectRecordList = projectRecordService.query().eq("donor_id", donor.getId()).list();
+        Set<Project> projectSet = new HashSet<>();
+        for(ProjectRecord projectRecord : projectRecordList)
+            if(projectService.query().eq("id", projectRecord.getProjectId()) != null)
+                projectSet.add(projectService.query().eq("id", projectRecord.getProjectId()).list().get(0));
+        return HttpResponseEntity.response(true, "查询", new ArrayList<Project>(projectSet));
     }
 
     @PostMapping("/queryDonorRecord")

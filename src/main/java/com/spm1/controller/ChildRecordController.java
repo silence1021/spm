@@ -13,10 +13,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/childRecord")
@@ -60,7 +57,7 @@ public class ChildRecordController {
         return HttpResponseEntity.response(true, "查询", childRecordList);
     }
 
-    @PostMapping("/queryByDonor")
+    @PostMapping("/queryByDonor_withMoney")
     @ResponseBody
     HttpResponseEntity queryRecordByDonor(@RequestBody Donor donor){
         List<ChildRecord> childRecordList = childRecordService.query().eq("donor_id", donor.getId()).list();
@@ -84,6 +81,16 @@ public class ChildRecordController {
            }
         }
         return HttpResponseEntity.response(true, "查询", new ArrayList<ChildInfo>(childInfoMap.values()));
+    }
+
+    @PostMapping("/queryByDonor")
+    @ResponseBody
+    HttpResponseEntity queryRecordWithoutMoney(@RequestBody Donor donor){
+        List<ChildRecord> childRecordList = childRecordService.query().eq("donor_id", donor.getId()).list();
+        Set<Child> childSet = new HashSet<>();
+        for(ChildRecord childRecord : childRecordList)
+            childSet.add(childService.getChildById(childRecord.getChildId()));
+        return HttpResponseEntity.response(true, "查询", new ArrayList<Child>(childSet));
     }
 
     @PostMapping("/queryDonorRecord")

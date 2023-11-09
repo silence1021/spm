@@ -21,4 +21,5 @@ public class Donor {
     private String tel;
     private String password;
     private String description;
+    private String uid;
 }

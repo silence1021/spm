@@ -30,10 +30,10 @@ public class ProjectItemServiceImpl extends ServiceImpl<ProjectItemMapper, Proje
     }
 
     @Override
-    public List<ProjectItem> listProjectItemsByProjectId(String projectId) {
+    public List<ProjectItem> listProjectItemsByProjectId(String id) {
         // You need to implement the method to retrieve items based on projectId
         // This might involve creating a custom query in the mapper
-        return projectItemMapper.selectByProjectId(projectId);
+        return projectItemMapper.selectByProjectId(id);
     }
 
     @Override

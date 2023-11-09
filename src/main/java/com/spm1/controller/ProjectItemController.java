@@ -25,15 +25,15 @@ public class ProjectItemController {
     @GetMapping("/query")
     @ResponseBody
     public HttpResponseEntity getProjectItemById(@RequestParam String id) {
-        ProjectItem ProjectItem = ProjectItemService.getProjectItemById(id);
+        ProjectItem ProjectItem = ProjectItemService.query().eq("id", id).list().get(0);
         return HttpResponseEntity.response(true, "获取项目进展记录", ProjectItem);
     }
 
     // Retrieve all ProjectItems associated with a given ProjectId
     @GetMapping("/query-project")
     @ResponseBody
-    public HttpResponseEntity getProjectItemsByProjectId(@RequestParam String ProjectId) {
-        List<ProjectItem> ProjectItems = ProjectItemService.listProjectItemsByProjectId(ProjectId);
+    public HttpResponseEntity getProjectItemsByProjectId(@RequestParam String id) {
+        List<ProjectItem> ProjectItems = ProjectItemService.query().eq("id", id).list();
         return HttpResponseEntity.response(true, "获取项目进展记录", ProjectItems);
     }
 
@@ -43,7 +43,7 @@ public class ProjectItemController {
     public HttpResponseEntity createProjectItem(@RequestBody ProjectItem ProjectItem, @RequestParam MultipartFile image) {
         String imageUrl = fileService.imageUpload(image, ProjectItem.getId(), imagePath);
         ProjectItem.setImageUrl(imageUrl);
-        boolean isSaved = ProjectItemService.saveProjectItem(ProjectItem);
+        boolean isSaved = ProjectItemService.save(ProjectItem);
         if (isSaved)
             return HttpResponseEntity.response(true, "创建项目进展记录", ProjectItem);
         else
@@ -56,7 +56,7 @@ public class ProjectItemController {
     public HttpResponseEntity updateProjectItem(@RequestBody ProjectItem updatedProjectItem, @RequestParam String id, @RequestParam MultipartFile image) {
         String imageUrl = fileService.imageUpload(image, updatedProjectItem.getId(), imagePath);
         updatedProjectItem.setImageUrl(imageUrl);
-        ProjectItem existingProjectItem = ProjectItemService.getProjectItemById(id);
+        ProjectItem existingProjectItem = ProjectItemService.query().eq("id", id).list().get(0);
         if (existingProjectItem == null) {
             return HttpResponseEntity.response(false, "更新项目进展记录", null);
         }
