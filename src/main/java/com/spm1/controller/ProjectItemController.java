@@ -23,6 +23,7 @@ public class ProjectItemController {
 
     // Retrieve a single ProjectItem by ID
     @GetMapping("/query")
+    @ResponseBody
     public HttpResponseEntity getProjectItemById(@RequestParam String id) {
         ProjectItem ProjectItem = ProjectItemService.getProjectItemById(id);
         return HttpResponseEntity.response(true, "获取项目进展记录", ProjectItem);
@@ -30,6 +31,7 @@ public class ProjectItemController {
 
     // Retrieve all ProjectItems associated with a given ProjectId
     @GetMapping("/query-project")
+    @ResponseBody
     public HttpResponseEntity getProjectItemsByProjectId(@RequestParam String ProjectId) {
         List<ProjectItem> ProjectItems = ProjectItemService.listProjectItemsByProjectId(ProjectId);
         return HttpResponseEntity.response(true, "获取项目进展记录", ProjectItems);
@@ -37,6 +39,7 @@ public class ProjectItemController {
 
     // Create a new ProjectItem
     @PostMapping("/add")
+    @ResponseBody
     public HttpResponseEntity createProjectItem(@RequestBody ProjectItem ProjectItem, @RequestParam MultipartFile image) {
         String imageUrl = fileService.imageUpload(image, ProjectItem.getId(), imagePath);
         ProjectItem.setImageUrl(imageUrl);
@@ -49,6 +52,7 @@ public class ProjectItemController {
 
     // Update an existing ProjectItem
     @PutMapping("/update")
+    @ResponseBody
     public HttpResponseEntity updateProjectItem(@RequestBody ProjectItem updatedProjectItem, @RequestParam String id, @RequestParam MultipartFile image) {
         String imageUrl = fileService.imageUpload(image, updatedProjectItem.getId(), imagePath);
         updatedProjectItem.setImageUrl(imageUrl);
@@ -66,6 +70,7 @@ public class ProjectItemController {
 
     // Delete a ProjectItem
     @DeleteMapping("/delete")
+    @ResponseBody
     public HttpResponseEntity deleteProjectItem(@RequestBody String id) {
         boolean isDeleted = ProjectItemService.deleteProjectItemById(id);
         if (isDeleted) {

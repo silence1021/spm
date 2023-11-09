@@ -22,6 +22,7 @@ public class DonationController {
     private final ChildService childService;
     private final ProjectService projectService;
     @PostMapping("/project/donation")
+    @ResponseBody
     public HttpResponseEntity ProjectDonation(@RequestBody Donor donor, @RequestBody Project project, @RequestBody Double money) {
         if(donorService.query().eq("id", donor.getId()).count() == 0)
             return HttpResponseEntity.response(false, "捐款记录创建", "用户不存在");
@@ -46,6 +47,7 @@ public class DonationController {
     }
 
     @PostMapping("/child/donation")
+    @ResponseBody
     public HttpResponseEntity ChildDonation(@RequestBody Donor donor, @RequestBody Child child, @RequestBody Double money) {
         if(donorService.query().eq("id", donor.getId()).count() == 0)
             return HttpResponseEntity.response(false, "捐款记录创建", "用户不存在");

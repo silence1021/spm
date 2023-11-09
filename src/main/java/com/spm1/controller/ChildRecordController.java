@@ -6,7 +6,10 @@ import com.spm1.entity.ChildRecord;
 import com.spm1.service.ChildRecordService;
 import com.spm1.service.ChildService;
 import com.spm1.tools.HttpResponseEntity;
+import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +28,7 @@ public class ChildRecordController {
     private final ChildService childService;
 
     @PostMapping("/add")
+    @ResponseBody
     HttpResponseEntity addRecord(@RequestBody ChildRecord record){
         List<ChildRecord> childRecordList = childRecordService.query()
                 .eq("id", record.getId()).list();
@@ -36,26 +40,34 @@ public class ChildRecordController {
     }
 
     @PostMapping("/delete")
+    @ResponseBody
     HttpResponseEntity deleteRecordById(@RequestBody ChildRecord record){
         boolean success = childRecordService.removeById(record);
         return HttpResponseEntity.response(success, "删除", null);
     }
 
     @PostMapping("/modify")
+    @ResponseBody
     HttpResponseEntity modifyRecord(@RequestBody ChildRecord record){
         boolean success = childRecordService.updateById(record);
         return HttpResponseEntity.response(success, "修改", null);
     }
 
     @PostMapping("/query")
+    @ResponseBody
     HttpResponseEntity queryRecord(@RequestBody ChildRecord record, @RequestBody Donor donor){
         List<ChildRecord> childRecordList = childRecordService.query().eq("child_id", record.getChildId()).eq("donor_id", donor.getId()).list();
         return HttpResponseEntity.response(true, "查询", childRecordList);
     }
 
     @PostMapping("/queryByDonor")
+    @ResponseBody
     HttpResponseEntity queryRecordByDonor(@RequestBody Donor donor){
         List<ChildRecord> childRecordList = childRecordService.query().eq("donor_id", donor.getId()).list();
+        log.info("childRecordList: " + childRecordList.size());
+        @Data
+        @Setter
+        @Getter
         class ChildInfo{
             Child child;
             Double money;
@@ -75,12 +87,14 @@ public class ChildRecordController {
     }
 
     @PostMapping("/queryDonorRecord")
+    @ResponseBody
     HttpResponseEntity queryRecordDonorRecord(@RequestBody Donor donor){
         List<ChildRecord> childRecordList = childRecordService.query().eq("donor_id", donor.getId()).list();
         return HttpResponseEntity.response(true, "查询", childRecordList);
     }
 
     @GetMapping("/all")
+    @ResponseBody
     HttpResponseEntity queryAll(){
         List<ChildRecord> childRecordList = childRecordService.query().list();
         return HttpResponseEntity.response(true, "查询", childRecordList);

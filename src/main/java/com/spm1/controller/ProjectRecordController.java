@@ -6,7 +6,10 @@ import com.spm1.entity.ProjectRecord;
 import com.spm1.service.ProjectRecordService;
 import com.spm1.service.ProjectService;
 import com.spm1.tools.HttpResponseEntity;
+import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +27,7 @@ public class ProjectRecordController {
     private final ProjectRecordService projectRecordService;
     private final ProjectService projectService;
     @PostMapping("/addRecord")
+    @ResponseBody
     HttpResponseEntity addRecord(@RequestBody ProjectRecord record){
         List<ProjectRecord> projectRecordList = projectRecordService.query()
                 .eq("id", record.getId()).list();
@@ -35,26 +39,33 @@ public class ProjectRecordController {
     }
 
     @PostMapping("/deleteRecord")
+    @ResponseBody
     HttpResponseEntity deleteRecordById(@RequestBody ProjectRecord record){
         boolean success = projectRecordService.removeById(record);
         return HttpResponseEntity.response(success, "删除", null);
     }
 
     @PostMapping("/modifyRecord")
+    @ResponseBody
     HttpResponseEntity modifyRecord(@RequestBody ProjectRecord record){
         boolean success = projectRecordService.updateById(record);
         return HttpResponseEntity.response(success, "修改", null);
     }
 
     @PostMapping("/queryRecord")
+    @ResponseBody
     HttpResponseEntity queryRecord(@RequestBody ProjectRecord record, Donor donor){
         List<ProjectRecord> projectRecordList = projectRecordService.query().eq("project_id", record.getProjectId()).eq("donor_id", donor.getId()).list();
         return HttpResponseEntity.response(true, "查询", projectRecordList);
     }
 
     @PostMapping("/queryByDonor")
+    @ResponseBody
     HttpResponseEntity queryRecordByDonor(@RequestBody Donor donor){
         List<ProjectRecord> projectRecordList = projectRecordService.query().eq("donor_id", donor.getId()).list();
+        @Data
+        @Setter
+        @Getter
         class ProjectInfo{
             Project project;
             Double money;
@@ -76,6 +87,7 @@ public class ProjectRecordController {
     }
 
     @PostMapping("/queryDonorRecord")
+    @ResponseBody
     HttpResponseEntity queryRecordDonorRecord(@RequestBody Donor donor){
         List<ProjectRecord> projectRecordList = projectRecordService.query().eq("donor_id", donor.getId()).list();
         return HttpResponseEntity.response(true, "查询", projectRecordList);

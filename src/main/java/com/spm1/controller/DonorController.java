@@ -63,12 +63,14 @@ public class DonorController {
     }
 
     @PostMapping("/modify")
+    @ResponseBody
     public HttpResponseEntity modifyUserinfo(@RequestBody Donor donor) {
         boolean success = donorService.updateById(donor);
         return HttpResponseEntity.response(success, "修改", null);
     }
 
     @PostMapping("/delete")
+    @ResponseBody
     public HttpResponseEntity deleteUserById(@RequestBody Donor donor) {
         boolean success = donorService.removeById(donor);
         return HttpResponseEntity.response(success, "删除", null);

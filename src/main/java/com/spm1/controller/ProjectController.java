@@ -21,6 +21,7 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @PostMapping("/add")
+    @ResponseBody
     public HttpResponseEntity createProject(@RequestBody Project project) {
         String uuid = UUID.randomUUID().toString();
         project.setId(uuid);
@@ -29,22 +30,26 @@ public class ProjectController {
     }
 
     @GetMapping("/search")
+    @ResponseBody
     public HttpResponseEntity getProjectById(@RequestBody String id) {
         return HttpResponseEntity.response(true, "获取项目对象", projectService.getById(id));
     }
 
     @GetMapping("/all")
+    @ResponseBody
     public HttpResponseEntity getAllProjects() {
         return HttpResponseEntity.response(true, "获取所有项目", projectService.list());
     }
 
     @PutMapping("/update")
+    @ResponseBody
     public HttpResponseEntity updateProject(@RequestBody Project project) {
         projectService.updateById(project);
         return HttpResponseEntity.response(true, "更新项目", project);
     }
 
     @DeleteMapping("/delete")
+    @ResponseBody
     public HttpResponseEntity deleteProject(@RequestBody String id) {
         projectService.removeById(id);
         return HttpResponseEntity.response(true, "删除项目", null);
